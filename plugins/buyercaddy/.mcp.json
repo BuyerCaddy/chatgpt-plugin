@@ -1,0 +1,7 @@
+{
+  "mcpServers": {
+    "buyercaddy": {
+      "url": "https://buyercaddy-oauth-gateway-972736928837.us-central1.run.app/mcp/openai"
+    }
+  }
+}

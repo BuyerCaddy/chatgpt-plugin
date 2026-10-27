@@ -1,0 +1,18 @@
+{
+  "name": "buyercaddy-chatgpt-plugin",
+  "version": "0.2.10",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "test:package": "python -m unittest discover -s tests -p \"test_*.py\"",
+    "package": "python scripts/package.py"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "devDependencies": {
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1"
+  }
+}

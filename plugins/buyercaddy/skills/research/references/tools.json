@@ -1,0 +1,798 @@
+{
+  "retrievedAt": "2026-10-01T13:38:55.941Z",
+  "endpoint": "https://mcp.salescaddy.ai/mcp",
+  "connectionEndpoint": "https://buyercaddy-oauth-gateway-972736928837.us-central1.run.app/mcp/openai",
+  "serverInfo": {
+    "name": "Buyercaddy MCP Server",
+    "version": "1.0.0"
+  },
+  "protocolVersion": "2024-11-05",
+  "tools": [
+    {
+      "description": "Get cohort products companies for a given company domain and cohort type",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "companyDomain": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Company domain (e.g., 'microsoft.com')."
+          },
+          "cohort": {
+            "type": "string",
+            "enum": [
+              "Default",
+              "Defined",
+              "Aspirational"
+            ],
+            "default": "Default",
+            "description": "Cohort type. Must be one of: Default, Defined, Aspirational."
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 0,
+            "description": "Page number (0-based)."
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 200,
+            "default": 20,
+            "description": "Page size."
+          }
+        },
+        "required": [
+          "companyDomain"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "name": "CompanyCohort"
+    },
+    {
+      "description": "Get usage of products by custom cohort (benchmark details).",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "companyDomain": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Company domain (e.g., 'microsoft.com')."
+          },
+          "cohortCompanyDomain": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1,
+            "maxItems": 10,
+            "description": "Array of cohort company domains."
+          },
+          "productId": {
+            "type": "string",
+            "description": "Optional product ID filter."
+          },
+          "vendorDomain": {
+            "type": "string",
+            "description": "Optional vendor domain filter."
+          },
+          "categoryId": {
+            "type": "string",
+            "description": "Optional category ID filter."
+          }
+        },
+        "required": [
+          "companyDomain",
+          "cohortCompanyDomain"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "name": "CompanyBenchmarkDetails"
+    },
+    {
+      "description": "Fetch company feed entries by domain.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "companyDomain": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Company domain (e.g., 'microsoft.com')."
+          },
+          "category": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "NEWS",
+                "PRESS",
+                "FUNDING",
+                "ACQUISITION",
+                "PEOPLE",
+                "BLOG",
+                "VIDEOS"
+              ]
+            },
+            "description": "Feed category filter. Can be an array of: NEWS, PRESS, FUNDING, ACQUISITION, PEOPLE, BLOG, VIDEOS."
+          },
+          "paginationId": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Pagination cursor returned by previous call."
+          }
+        },
+        "required": [
+          "companyDomain"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "name": "CompanyFeed"
+    },
+    {
+      "description": "Fetch firmographics for a company by domain.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "companyDomain": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Company domain (e.g., 'microsoft.com')."
+          }
+        },
+        "required": [
+          "companyDomain"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "name": "CompanyFirmographics"
+    },
+    {
+      "description": "Find competitors for a company by domain",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "companyDomain": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Company domain (e.g., 'microsoft.com')."
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 200,
+            "default": 20,
+            "description": "Page size."
+          }
+        },
+        "required": [
+          "companyDomain"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "name": "CompanyCompetitors"
+    },
+    {
+      "description": "Get related products for a company's product within a cohort.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "companyDomain": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Company domain (e.g., 'microsoft.com')."
+          },
+          "productId": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Product ID (e.g., '1234sdf')."
+          },
+          "groupName": {
+            "type": "string",
+            "enum": [
+              "Default",
+              "Defined",
+              "Aspirational"
+            ],
+            "description": "Cohort type filter. Must be one of: Default, Defined, Aspirational."
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 0,
+            "description": "Page number (0-based)."
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 200,
+            "default": 20,
+            "description": "Page size."
+          }
+        },
+        "required": [
+          "companyDomain",
+          "productId",
+          "groupName"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "name": "CompanyProductRelated"
+    },
+    {
+      "description": "Search live BuyerCaddy companies with optional name, geography, firmographic, product, vendor, and category filters. Use exact employeeRangeIn and revenueRangeIn enum values. countryIn is the country filter. Arrays use OR unless the corresponding ...And flag is true.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 0,
+            "description": "Page index (0-based)."
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 200,
+            "default": 20,
+            "description": "Page size."
+          },
+          "companyNameContains": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Optional substring to match in company name. Omit it for a filter-only search."
+          },
+          "postalCodeIn": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Postal codes IN."
+          },
+          "stateIn": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "States/regions IN."
+          },
+          "cityIn": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Cities IN."
+          },
+          "countryIn": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Exact country labels IN, for example ['Germany']. Values are combined with OR."
+          },
+          "companyDomainIn": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Company domains IN."
+          },
+          "industryIn": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Industries IN."
+          },
+          "vendorDomainIn": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Vendor domains IN."
+          },
+          "vendorDomainNotIn": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Vendor domains NOT IN."
+          },
+          "productIdIn": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Product IDs IN."
+          },
+          "productIdNotIn": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Product IDs NOT IN."
+          },
+          "mainCategoryIdIn": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Main category IDs IN."
+          },
+          "mainCategoryIdNotIn": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Main category IDs NOT IN."
+          },
+          "intensityBucketIn": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Technographics intensity buckets IN."
+          },
+          "dateLastVerifiedBucketIn": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Last-verified date buckets IN."
+          },
+          "employeeRangeIn": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "Less than 10",
+                "10 - 49",
+                "50 - 199",
+                "200 - 499",
+                "500 - 999",
+                "1,000 - 4,999",
+                "5,000 - 9,999",
+                "Above 10,000"
+              ]
+            },
+            "description": "Exact enum values only: Less than 10; 10 - 49; 50 - 199; 200 - 499; 500 - 999; 1,000 - 4,999; 5,000 - 9,999; Above 10,000."
+          },
+          "revenueRangeIn": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "Less than 1M",
+                "1M - 2M",
+                "2M - 5M",
+                "5M - 10M",
+                "10M - 50M",
+                "50M - 100M",
+                "100M - 500M",
+                "500M - 1B",
+                "More than 1B"
+              ]
+            },
+            "description": "Exact enum values only: Less than 1M; 1M - 2M; 2M - 5M; 5M - 10M; 10M - 50M; 50M - 100M; 100M - 500M; 500M - 1B; More than 1B."
+          },
+          "vendorDomainInAnd": {
+            "type": "boolean",
+            "default": false,
+            "description": "Combine vendorDomainIn with AND."
+          },
+          "vendorDomainNotInAnd": {
+            "type": "boolean",
+            "default": false,
+            "description": "Combine vendorDomainNotIn with AND."
+          },
+          "productIdInAnd": {
+            "type": "boolean",
+            "default": false,
+            "description": "Combine productIdIn with AND."
+          },
+          "productIdNotInAnd": {
+            "type": "boolean",
+            "default": false,
+            "description": "Combine productIdNotIn with AND."
+          },
+          "mainCategoryIdInAnd": {
+            "type": "boolean",
+            "default": false,
+            "description": "Combine mainCategoryIdIn with AND."
+          },
+          "mainCategoryIdNotInAnd": {
+            "type": "boolean",
+            "default": false,
+            "description": "Combine mainCategoryIdNotIn with AND."
+          }
+        },
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "name": "CompaniesSearch"
+    },
+    {
+      "description": "Search products whith parameters.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "search": {
+            "type": "string",
+            "description": "The search query for products."
+          },
+          "categoryId": {
+            "type": "string",
+            "description": "Optional category ID to filter products."
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 0,
+            "description": "Page number (0-based)."
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 200,
+            "default": 20,
+            "description": "Page size."
+          }
+        },
+        "required": [
+          "search"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "name": "ProductsSearch"
+    },
+    {
+      "description": "Get usage metrics within a cohort products for a company. Requires either a productId or a vendorDomain.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "companyDomain": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Company domain (e.g., 'microsoft.com')."
+          },
+          "cohort": {
+            "type": "string",
+            "enum": [
+              "Default",
+              "Defined",
+              "Aspirational"
+            ],
+            "description": "Cohort type. Must be one of: Default, Defined, Aspirational."
+          },
+          "productId": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Optional product ID filter."
+          },
+          "vendorDomain": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Optional vendor domain filter (e.g., 'adobe.com')."
+          }
+        },
+        "required": [
+          "companyDomain",
+          "cohort"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "name": "CompanyCohortMetricUsage"
+    },
+    {
+      "description": "Find all products associated with a single vendor (by domain).",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "nameOrDomain": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Vendor domain (e.g., 'atlassian.com')."
+          },
+          "productName": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Optional product name filter (substring match)."
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 0,
+            "description": "Page number (0-based)."
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 200,
+            "default": 20,
+            "description": "Page size."
+          }
+        },
+        "required": [
+          "nameOrDomain"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "name": "VendorProducts"
+    },
+    {
+      "description": "Search vendor by company name or domain.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "nameOrDomain": {
+            "type": "string",
+            "description": "Vendor name or domain to search for."
+          },
+          "fuzzy": {
+            "type": "boolean",
+            "default": false,
+            "description": "Set to true for a non-exact, fuzzy search. required"
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 0,
+            "description": "Page number (0-based)."
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 200,
+            "default": 20,
+            "description": "Page size."
+          }
+        },
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "name": "Vendors"
+    },
+    {
+      "description": "Fetches all products for a single company as a JSON object or returns a pre-signed URL for download.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "companyDomain": {
+            "type": "string",
+            "minLength": 1,
+            "description": "The domain of the company, which will be part of the URL (e.g., 'atlassian.com')."
+          },
+          "onBehalfOfUser": {
+            "type": "string",
+            "format": "email",
+            "description": "The email of the user to act on behalf of, sent in the 'X-On-Behalf-Of-User' header."
+          }
+        },
+        "required": [
+          "companyDomain",
+          "onBehalfOfUser"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "name": "CompanyProductsAsJson"
+    },
+    {
+      "description": "Find customers of products",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "prompt": {
+            "type": "string",
+            "description": "Natural-language query, e.g., 'Give me customers for adobe photoshop'."
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 0,
+            "description": "Page index (0-based)."
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 200,
+            "default": 20,
+            "description": "Page size."
+          }
+        },
+        "required": [
+          "prompt"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "name": "FindCustomersOfProducts"
+    },
+    {
+      "description": "Find tech stack / products used by a company (based on natural-language query).",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "prompt": {
+            "type": "string",
+            "description": "Natural-language query, e.g., 'What products used by hsbc.com company'."
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 0,
+            "description": "Page index (0-based)."
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 200,
+            "default": 20,
+            "description": "Page size."
+          }
+        },
+        "required": [
+          "prompt"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "name": "FindTechstacksForCompany"
+    },
+    {
+      "description": "Search product categories and return those whose name matches any of the provided queries (substring, case-insensitive).",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "queries": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "description": "Array of category name queries (substrings, case-insensitive)."
+          }
+        },
+        "required": [
+          "queries"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "name": "CategoriesSearch"
+    },
+    {
+      "description": "Fetch all industries and return those whose name matches any of the provided queries (substring, case-insensitive).",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "queries": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "description": "Array of industry name queries (substrings, case-insensitive)."
+          }
+        },
+        "required": [
+          "queries"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "name": "SearchIndustries"
+    },
+    {
+      "description": "Gets a list of products used by the company, there is a division into pages, by default page=0 size=20.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "companyDomain": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Company domain (e.g., \"hilton.com\")."
+          },
+          "onBehalfOfUser": {
+            "type": "string",
+            "format": "email",
+            "description": "Optional email for 'X-On-Behalf-Of-User' header."
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 0,
+            "description": "Page index (0-based)."
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 200,
+            "default": 20,
+            "description": "Page size."
+          },
+          "mainCategory": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Main Category or Parent Category name. E.g. CRM, Artificial Intelligence"
+          },
+          "mainCategoryId": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Main Category ID or Parent Category ID"
+          }
+        },
+        "required": [
+          "companyDomain"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "name": "CompanyProducts"
+    },
+    {
+      "description": "Check whether a company uses specific products or products from specific categories.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "companyDomain": {
+            "type": "string",
+            "description": "Company domain (e.g., \"hilton.com\")."
+          },
+          "productNames": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "description": "Array of product names (strings)."
+          },
+          "productIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "description": "Array of product IDs (strings)."
+          },
+          "categoryNames": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "description": "Array of category names (strings)."
+          },
+          "categoryIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "description": "Array of category IDs (strings)."
+          }
+        },
+        "required": [
+          "companyDomain"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "name": "CompanyProductsInUse"
+    }
+  ],
+  "scope": "Research subset: 18 tools. The live shared MCP may advertise additional account tools outside this skill."
+}

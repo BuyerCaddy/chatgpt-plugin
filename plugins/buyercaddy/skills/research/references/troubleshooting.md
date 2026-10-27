@@ -1,0 +1,12 @@
+# Connection and tool failures
+
+- Missing tools: follow [connection guidance](connection.md) to distinguish a plugin loading problem from missing authorization. Installing a skill alone cannot connect the endpoint. Use only tools advertised in the current connection; do not repeatedly launch sign-in for a missing server.
+- Missing connection: follow [connection guidance](connection.md). Prefer a native Connect action, then the packaged host OAuth helper in Codex with local execution. Use verified settings only when neither route is available. Never invent a direct OAuth URL or request the key in chat.
+- Unauthorized/expired/revoked credential: pause data requests and use the reconnect flow in [connection guidance](connection.md), retaining the original query. Retry it once after confirmed authorization. If the account still cannot access data, report the account setup issue; do not use another account or anonymous/shared fallback.
+- Invalid arguments: read the live schema, fix types/enums/required fields and retry once with corrected arguments. An unchanged invalid request will fail again.
+- 429/temporary outage: honor server retry guidance; retain completed results. A model-backed call may already have incurred usage, so ask before repeating work with uncertain outcome.
+- A per-company enrichment failure such as CompanyProductsInUse HTTP 500 means evidence is unavailable, not productInUse=false. Keep successful rows and retain that domain as unresolved. Prefer another pending candidate for a shortlist; disclose the skipped check briefly. Do not retry the same failed enrichment just because a duplicate domain appears on a subsequent page. Broader paging must stop on authentication/quota failure or a failed source page.
+- Tool isError, success:false, or a malformed response: treat as an error, not a zero count. Validate against that tool's actual response contract: object results, aggregates and export links do not require a rows array. A missing expected collection means unavailable data, not an empty successful result. Preserve the tool name and a safe support/request ID if supplied. Omit backend stack traces, SQL and secrets from the answer.
+- Changing or repeated pages: stop as incomplete; offer a narrower deterministic query or continuation after service recovery.
+
+The MCP server currently decides credential validation, entitlement checks, quotas and accounting. This plugin cannot prove those controls or repair a server-side error.

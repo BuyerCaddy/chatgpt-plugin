@@ -1,0 +1,105 @@
+{
+  "CompanyCohort": {
+    "companyDomain": "microsoft.com",
+    "cohort": "Default",
+    "page": 0,
+    "size": 20
+  },
+  "CompanyBenchmarkDetails": {
+    "companyDomain": "microsoft.com",
+    "cohortCompanyDomain": [
+      "google.com"
+    ],
+    "vendorDomain": "salesforce.com"
+  },
+  "CompanyFeed": {
+    "companyDomain": "microsoft.com",
+    "category": [
+      "NEWS"
+    ]
+  },
+  "CompanyFirmographics": {
+    "companyDomain": "microsoft.com"
+  },
+  "CompanyCompetitors": {
+    "companyDomain": "microsoft.com",
+    "size": 20
+  },
+  "CompanyProductRelated": {
+    "companyDomain": "microsoft.com",
+    "productId": "fixture-product-id",
+    "groupName": "Default",
+    "page": 0,
+    "size": 20
+  },
+  "CompaniesSearch": {
+    "vendorDomainIn": [
+      "salesforce.com"
+    ],
+    "countryIn": [
+      "Germany"
+    ],
+    "employeeRangeIn": [
+      "1,000 - 4,999"
+    ],
+    "page": 0,
+    "size": 20
+  },
+  "ProductsSearch": {
+    "search": "",
+    "categoryId": "fixture-category-id",
+    "page": 0,
+    "size": 20
+  },
+  "CompanyCohortMetricUsage": {
+    "companyDomain": "microsoft.com",
+    "cohort": "Default",
+    "vendorDomain": "salesforce.com"
+  },
+  "VendorProducts": {
+    "nameOrDomain": "salesforce.com",
+    "page": 0,
+    "size": 20
+  },
+  "Vendors": {
+    "nameOrDomain": "salesforce.com",
+    "fuzzy": false,
+    "page": 0,
+    "size": 20
+  },
+  "CompanyProductsAsJson": {
+    "companyDomain": "microsoft.com",
+    "onBehalfOfUser": "fixture-authorized-user@example.com"
+  },
+  "FindCustomersOfProducts": {
+    "prompt": "Find companies using Salesforce products",
+    "page": 0,
+    "size": 20
+  },
+  "FindTechstacksForCompany": {
+    "prompt": "Find recorded software products used by microsoft.com",
+    "page": 0,
+    "size": 20
+  },
+  "CategoriesSearch": {
+    "queries": [
+      "CRM"
+    ]
+  },
+  "SearchIndustries": {
+    "queries": [
+      "banking"
+    ]
+  },
+  "CompanyProducts": {
+    "companyDomain": "microsoft.com",
+    "page": 0,
+    "size": 20
+  },
+  "CompanyProductsInUse": {
+    "companyDomain": "microsoft.com",
+    "productNames": [
+      "Salesforce Sales Cloud"
+    ]
+  }
+}
