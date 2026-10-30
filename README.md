@@ -10,10 +10,10 @@ Version 0.2.10 resumes pending research automatically after browser consent and 
 
 ## Ready-made files
 
-- `dist/buyercaddy-chatgpt-plugin.zip` - single-plugin portable OAuth package, with a Codex compatibility overlay.
-- `dist/buyercaddy-chatgpt-source.zip` - source, local marketplace, documentation, builders and tests.
+- [buyercaddy-chatgpt-plugin.zip](https://github.com/BuyerCaddy/chatgpt-plugin/releases/download/v0.2.10/buyercaddy-chatgpt-plugin.zip) - single-plugin portable OAuth package, with a Codex compatibility overlay.
+- [buyercaddy-chatgpt-source.zip](https://github.com/BuyerCaddy/chatgpt-plugin/releases/download/v0.2.10/buyercaddy-chatgpt-source.zip) - source, local marketplace, documentation, builders and tests.
 
-These are local development/review artifacts. No public download release or OpenAI directory publication has been performed. See [installation](plugins/buyercaddy/INSTALL.md), [publication preparation](docs/cloud-release.md), and [verification](docs/verification.md) before distributing the package.
+These are development/review packages available in the [v0.2.10 GitHub release](https://github.com/BuyerCaddy/chatgpt-plugin/releases/tag/v0.2.10), or build them locally. The GitHub release is not an OpenAI Plugins directory publication. See [installation](plugins/buyercaddy/INSTALL.md), [publication preparation](docs/cloud-release.md), and [verification](docs/verification.md) before distributing the package.
 
 ## Build with Python or PowerShell
 
